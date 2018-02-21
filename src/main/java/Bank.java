@@ -9,7 +9,8 @@
  */
 public class Bank {
 
-    public String bankName;
+    private String bankName;
+    private double account;
 
     public Bank() {
         bankName = "Illini Bank";
@@ -26,9 +27,12 @@ public class Bank {
      * @return boolean
      */
     public boolean withdrawMoney(final BankAccount bankAccount, final double amount) {
-        /*
-         * Implement this function
-         */
+        if (bankAccount.getAccountBalance() > amount) {
+            bankAccount.setAccountBalance(bankAccount.getAccountBalance() - amount);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -42,9 +46,12 @@ public class Bank {
      * @return boolean
      */
     public boolean depositMoney(final BankAccount bankAccount, final double amount) {
-        /*
-         * Implement this function
-         */
+        if (bankAccount.getAccountBalance() >= 0) {
+            bankAccount.setAccountBalance(amount);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -61,9 +68,13 @@ public class Bank {
 
     public boolean transferMoney(final BankAccount source, final BankAccount destination,
             final double amount) {
-        /*
-         * Implement this function
-         */
+        if (source.getAccountBalance() > amount) {
+            destination.setAccountBalance(amount);
+            source.setAccountBalance(source.getAccountBalance() - amount);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -74,21 +85,18 @@ public class Bank {
      */
 
     public void changeOwnerName(final BankAccount bankAccount, final String name) {
-        /*
-         * Implement this function
-         */
+        bankAccount.setOwnerName(name);
     }
 
     public static int totalAccounts = 0;
+
     /**
      * Uses static variable to get number of bank accounts opened.
      *
      * @return the total number of accounts
      */
     public static int getNumberOfAccount() {
-        /*
-         * Implement this function
-         */
+        return BankAccount.n;
     }
 
     /**
@@ -118,6 +126,9 @@ public class Bank {
 
         // Transfer money from Account 2 to Account 1 and print new balances
         bank.transferMoney(account2, account1, 350.0);
+
+        BankAccount accountAlvis = new BankAccount("Alvis Zhao", BankAccount.BankAccountType.SAVINGS);
+        System.out.print("The account for "+ accountAlvis.getOwnerName() + " is created with balance: unlimited");
 
         // Print number of accounts
         System.out.print("Number of active accounts at " + bank.bankName + " are ");
